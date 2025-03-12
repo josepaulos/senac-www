@@ -9,13 +9,7 @@ const conexao = mysql.createConnection({
     database: 'dbsenac',
 })
 
-conexao.connect((error) =>{
-    if (error) {
-        console.log(error)
-    }else{
-        console.log("Conexão realizada com secesso!")
-    }
-})
+conexao.connect()
 
 
 export default conexao
