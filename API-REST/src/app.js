@@ -1,22 +1,23 @@
 import express from 'express'
+import conexao from '../infra/conexao'
 const app = express()
 
 //indcar para o express para usar o body com jason
 app.use(express.json())
 
-//mock
-const listas=[
-    {id:1,nome:'José Paulo',grupo:'P'},
-    {id:2,nome:'Erick',grupo:'g'},
-    {id:3,nome:'Carlos',grupo:'P'},
-    {id:4,nome:'RaphaNide',grupo:'P'},
-    {id:5,nome:'Prefeito',grupo:'P'},
-]
+// //mock
+// const listas=[
+//     {id:1,nome:'José Paulo',grupo:'P'},
+//     {id:2,nome:'Erick',grupo:'g'},
+//     {id:3,nome:'Carlos',grupo:'P'},
+//     {id:4,nome:'RaphaNide',grupo:'P'},
+//     {id:5,nome:'Prefeito',grupo:'P'},
+// ]
 
-//Criando uma rota padrão ou raiz
-app.get('/',(req,res)=>{
-    res.status(200).send('Aula de Prog Web Prof-Bruno')
-})
+// //Criando uma rota padrão ou raiz
+// app.get('/',(req,res)=>{
+//     res.status(200).send('Aula de Prog Web Prof-Bruno')
+// })
 
 function buscarAlunoporId(id) {
     return listas.filter(listas => listas.id == id)
@@ -26,7 +27,14 @@ function buscarAlunoporId(id) {
 
 //listar
 app.get('/listas',(req,res)=>{
-    res.status(200).send(listas);
+    const sql = "SELECT * FROM alunos;"
+    conexao.query(sql, (error,result)=>{
+      if (error) {
+        console.log(error)
+      } else {
+        res.status(200).send(result);
+      }
+    }) 
 })
 //bucar por id
 app.get('/listas/:id',(req,res)=>{
